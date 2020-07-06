@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "835209105130",
+    "firebase_url": "https://kaamkaryaar.firebaseio.com",
+    "project_id": "kaamkaryaar",
+    "storage_bucket": "kaamkaryaar.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:835209105130:android:bb4214a68f035a86321193",
+        "android_client_info": {
+          "package_name": "com.example.tastee"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "835209105130-abav4tc71soucuaqs4om39qavc6v05od.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBWLuQ975L-RqCrmyZSboPeAYivAjifzKY"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "835209105130-abav4tc71soucuaqs4om39qavc6v05od.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
