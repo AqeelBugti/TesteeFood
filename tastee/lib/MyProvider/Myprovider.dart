@@ -28,22 +28,7 @@ class MyProvider with ChangeNotifier {
   int get cartProductlength {
     return _cartProductList.length;
   }
-
-  // double get getTotalPrice {
-  //   List<double> totalPrice = [];
-  //   double price = 0.0;
-  //   _cartProductList.forEach((element) {
-  //     price = element.foodPrice;
-  //     totalPrice.add(price);
-  //   });
-  //   double lastPrice;
-  //   totalPrice.forEach((element) {
-  //     lastPrice = element;
-  //   });
-  //   print(lastPrice);
-  //   return price;
-  // }
-
+  
   List<CartProduct> get cartFoodList {
     return _cartProductList;
   }

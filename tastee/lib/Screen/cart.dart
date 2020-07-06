@@ -93,7 +93,7 @@ class _CartState extends State<Cart> {
   @override
   Widget build(BuildContext context) {
     provider = Provider.of<MyProvider>(context);
-
+    
     var check = provider.cartFoodList;
     check.forEach((element) {
       total += element.foodPrice;

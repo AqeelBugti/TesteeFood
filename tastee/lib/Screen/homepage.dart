@@ -401,19 +401,6 @@ class _HomePageState extends State<HomePage> {
                                           );
                                         },
                                       ),
-                                      // CircleContainer(
-                                      //   foodName: "secondfood.foodName",
-                                      //   foodType: "secondfood.foodType",
-                                      //   foodPrice: 23,
-                                      //   foodRating: 234,
-                                      //   foodImage: food.image,
-                                      //   whenPress: () {
-                                      //     Navigator.of(context).pushReplacement(
-                                      //         MaterialPageRoute(
-                                      //             builder: (context) =>
-                                      //                 DetailPage()));
-                                      //   },
-                                      // ),
                                     ],
                                   ),
                                 ),
