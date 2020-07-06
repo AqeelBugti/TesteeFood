@@ -62,7 +62,7 @@ class _DetailPageState extends State<DetailPage> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Text(
-            "\$${totalPrice == null ? widget.foodPrice.toString() : totalPrice}",
+            "\$${totalPrice == 0 ? widget.foodPrice.toString() : totalPrice}",
             style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,

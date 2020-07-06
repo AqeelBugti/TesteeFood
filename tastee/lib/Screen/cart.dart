@@ -10,6 +10,7 @@ class Cart extends StatefulWidget {
 
 class _CartState extends State<Cart> {
   MyProvider provider;
+  double total = 0.0;
   Widget _cartWiget(BuildContext context, int index) {
     var allCartProduct = provider.allProductList;
 
@@ -81,7 +82,7 @@ class _CartState extends State<Cart> {
               fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
         ),
         Text(
-          "\$360",
+          "\$$total",
           style: TextStyle(
               fontSize: 20, color: Colors.white, fontWeight: FontWeight.bold),
         ),
@@ -92,6 +93,12 @@ class _CartState extends State<Cart> {
   @override
   Widget build(BuildContext context) {
     provider = Provider.of<MyProvider>(context);
+
+    var check = provider.cartFoodList;
+    check.forEach((element) {
+      total += element.foodPrice;
+    });
+
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,
