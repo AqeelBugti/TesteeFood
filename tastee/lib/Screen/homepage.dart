@@ -281,7 +281,7 @@ class _HomePageState extends State<HomePage> {
                 ),
                 _drawarCardWidget(
                   icons: Icons.exit_to_app,
-                  name: 'Logou',
+                  name: 'Logo',
                   whenPress: () {
                     FirebaseAuth.instance.signOut();
                   },
