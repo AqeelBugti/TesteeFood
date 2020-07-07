@@ -35,6 +35,7 @@ class _CartState extends State<Cart> {
                   child: Text('No'),
                 ),
                 FlatButton(
+                  color: Colors.red,
                   onPressed: () {
                     // Navigator.pop(context, true);
                     Navigator.of(
@@ -50,9 +51,11 @@ class _CartState extends State<Cart> {
         );
       },
       key: UniqueKey(),
-      direction: DismissDirection.endToStart,
+
       //crossAxisEndOffset: 0.9,
       onDismissed: (direction) {
+        provider.deleteCartFood(index);
+        total -= allCartProduct[index].foodPrice;
         Scaffold.of(context).showSnackBar(
           SnackBar(
             backgroundColor: Theme.of(context).accentColor,
@@ -71,12 +74,12 @@ class _CartState extends State<Cart> {
         padding: const EdgeInsets.only(right: 20.0),
         // alignment: AlignmentDirectional.centerEnd,
         alignment: Alignment.centerRight,
-        color: Theme.of(context).primaryColor,
-        child: Icon(
-          Icons.delete,
-          size: 32.0,
-          color: Theme.of(context).accentColor,
-        ),
+        // color: Theme.of(context).primaryColor,
+        // child: Icon(
+        //   Icons.delete,
+        //   size: 32.0,
+        //   color: Theme.of(context).accentColor,
+        // ),
       ),
       child: Container(
         margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
@@ -160,7 +163,7 @@ class _CartState extends State<Cart> {
 
   @override
   void initState() {
-    MyProvider provider = Provider.of<MyProvider>(context,listen: false);
+    MyProvider provider = Provider.of<MyProvider>(context, listen: false);
     var check = provider.cartFoodList;
     check.forEach((element) {
       total += element.foodPrice;
@@ -250,74 +253,3 @@ class _CartState extends State<Cart> {
 //     );
 //   },
 //   child:
-
-/// Tring Down Wala Dismissible
-
-//  Dismissible(
-//           confirmDismiss: (direction) {
-//             return showDialog(
-//               context: context,
-//               builder: (context) {
-//                 return CupertinoAlertDialog(
-//                   title: Text('Delete'),
-//                   content: Text('Delete'),
-//                   actions: <Widget>[
-//                     FlatButton(
-//                       onPressed: () {
-//                         // Navigator.pop(context, false);
-//                         Navigator.of(
-//                           context,
-//                           // rootNavigator: true,
-//                         ).pop(false);
-//                       },
-//                       child: Text('No'),
-//                     ),
-//                     FlatButton(
-//                       onPressed: () {
-//                         // Navigator.pop(context, true);
-//                         Navigator.of(
-//                           context,
-//                           // rootNavigator: true,
-//                         ).pop(true);
-//                       },
-//                       child: Text('Yes'),
-//                     ),
-//                   ],
-//                 );
-//               },
-//             );
-//           },
-//           key: UniqueKey(),
-//           direction: DismissDirection.endToStart,
-//           onDismissed: (direction) {
-//             //TODO DELETE
-//             Scaffold.of(context).showSnackBar(
-//               SnackBar(
-//                 backgroundColor: Theme.of(context).accentColor,
-//                 content: Text(
-//                   'test',
-//                   textAlign: TextAlign.center,
-//                   style: TextStyle(
-//                     fontSize: 20.0,
-//                     color: Colors.white,
-//                   ),
-//                 ),
-//               ),
-//             );
-//           },
-//           background: Container(
-//             padding: const EdgeInsets.only(right: 20.0),
-//             // alignment: AlignmentDirectional.centerEnd,
-//             alignment: Alignment.centerRight,
-//             color: Theme.of(context).accentColor,
-//             child: Icon(
-//               Icons.delete,
-//               size: 32.0,
-//               color: Theme.of(context).primaryColor,
-//             ),
-//           ),
-//           child: Padding(
-//             padding: const EdgeInsets.symmetric(horizontal: 20.0),
-//             child: CartCard(),
-//           ),
-//         ),

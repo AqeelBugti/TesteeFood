@@ -28,8 +28,13 @@ class MyProvider with ChangeNotifier {
   int get cartProductlength {
     return _cartProductList.length;
   }
-  
+
   List<CartProduct> get cartFoodList {
     return _cartProductList;
+  }
+
+  void deleteCartFood(int index) {
+    _cartProductList.removeAt(index);
+    notifyListeners();
   }
 }

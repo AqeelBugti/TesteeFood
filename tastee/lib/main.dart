@@ -13,15 +13,15 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-      statusBarColor: Color(0xffff3ea5),
+      statusBarColor: Color(0xff587a83),
       statusBarBrightness: Brightness.dark,
     ));
     return ChangeNotifierProvider(
       create: (context) => MyProvider(),
       child: MaterialApp(
         theme: ThemeData(
-          accentColor: Color(0xff04d4ee), //////////// Python color
-          primaryColor: Color(0xffff3ea5), /////// Pink Wala Color
+          accentColor: Color(0xff5790ab), //////////// Python color
+          primaryColor: Color(0xff587a83), /////// Pink Wala Color
         ),
         debugShowCheckedModeBanner: false,
         home: StreamBuilder(

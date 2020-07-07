@@ -192,7 +192,7 @@ class _HomePageState extends State<HomePage> {
             icon: Icon(
               Icons.notifications,
               size: 30,
-              color: Theme.of(context).primaryColor,
+              color: Colors.white
             ),
             onPressed: () {},
           ),
