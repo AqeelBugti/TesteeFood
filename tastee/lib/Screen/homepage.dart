@@ -9,6 +9,8 @@ import './food_catagory.dart';
 import '../Wigets/circle_container.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../Model/food_model.dart';
+import '../searchbar/data_page.dart';
+import '../searchbar/search.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -120,8 +122,13 @@ class _HomePageState extends State<HomePage> {
                 borderRadius: BorderRadius.circular(10),
                 borderSide: BorderSide.none),
             hintText: 'Search',
-            suffixIcon: Icon(
-              Icons.search,
+            suffixIcon: IconButton(
+              icon: Icon(
+                Icons.search,
+              ),
+              onPressed: () {
+                showSearch(context: context, delegate: DataSearch(listWords));
+              },
             ),
             fillColor: Colors.white,
             filled: true),
@@ -189,11 +196,7 @@ class _HomePageState extends State<HomePage> {
         elevation: 0.0,
         actions: <Widget>[
           IconButton(
-            icon: Icon(
-              Icons.notifications,
-              size: 30,
-              color: Colors.white
-            ),
+            icon: Icon(Icons.notifications, size: 30, color: Colors.white),
             onPressed: () {},
           ),
         ],

@@ -20,8 +20,8 @@ class MyApp extends StatelessWidget {
       create: (context) => MyProvider(),
       child: MaterialApp(
         theme: ThemeData(
-          accentColor: Color(0xff5790ab), //////////// Python color
-          primaryColor: Color(0xff587a83), /////// Pink Wala Color
+          accentColor: Color(0xff78bad4), //////////// bs smjhe aaya
+          primaryColor: Color(0xff587a83), ///////  Main Colors
         ),
         debugShowCheckedModeBanner: false,
         home: StreamBuilder(
