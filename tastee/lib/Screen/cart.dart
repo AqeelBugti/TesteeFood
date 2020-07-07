@@ -11,59 +11,127 @@ class Cart extends StatefulWidget {
 class _CartState extends State<Cart> {
   MyProvider provider;
   double total = 0.0;
+
   Widget _cartWiget(BuildContext context, int index) {
     var allCartProduct = provider.allProductList;
 
-    return Container(
-      margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
-      child: Card(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
-        child: Container(
-          child: ListTile(
-            leading: Container(
-              child: CircleAvatar(
-                radius: 30,
-                backgroundImage: NetworkImage(allCartProduct[index].foodImage),
-              ),
-            ),
-            title: Container(
-              padding: EdgeInsets.only(left: 4),
-              child: Row(
-                children: <Widget>[
-                  Text(
-                    '${allCartProduct[index].foodQuantity}x',
-                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.w300),
-                  ),
-                  SizedBox(
-                    width: 20,
-                  ),
-                  Container(
-                    height: 60,
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-                      children: <Widget>[
-                        Text(
-                          allCartProduct[index].foodName,
-                          style: TextStyle(
-                              fontSize: 20, fontWeight: FontWeight.bold),
-                        ),
-                        Text(
-                          allCartProduct[index].foodType,
-                          style: TextStyle(
-                              fontSize: 16, fontWeight: FontWeight.w300),
-                        ),
-                      ],
-                    ),
-                  ),
-                ],
-              ),
-            ),
-            trailing: Text(
-              " \$${allCartProduct[index].foodPrice}",
+    return Dismissible(
+      confirmDismiss: (direction) {
+        return showDialog(
+          context: context,
+          builder: (context) {
+            return AlertDialog(
+              title: Text('Delete'),
+              content: Text('Are you sure ?'),
+              actions: <Widget>[
+                FlatButton(
+                  onPressed: () {
+                    // Navigator.pop(context, false);
+                    Navigator.of(
+                      context,
+                      // rootNavigator: true,
+                    ).pop(false);
+                  },
+                  child: Text('No'),
+                ),
+                FlatButton(
+                  onPressed: () {
+                    // Navigator.pop(context, true);
+                    Navigator.of(
+                      context,
+                      // rootNavigator: true,
+                    ).pop(true);
+                  },
+                  child: Text('Yes'),
+                ),
+              ],
+            );
+          },
+        );
+      },
+      key: UniqueKey(),
+      direction: DismissDirection.endToStart,
+      //crossAxisEndOffset: 0.9,
+      onDismissed: (direction) {
+        Scaffold.of(context).showSnackBar(
+          SnackBar(
+            backgroundColor: Theme.of(context).accentColor,
+            content: Text(
+              'Yesh Delete kr De Bhai',
+              textAlign: TextAlign.center,
               style: TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.bold,
-                  color: Theme.of(context).accentColor),
+                fontSize: 20.0,
+                color: Colors.white,
+              ),
+            ),
+          ),
+        );
+      },
+      background: Container(
+        padding: const EdgeInsets.only(right: 20.0),
+        // alignment: AlignmentDirectional.centerEnd,
+        alignment: Alignment.centerRight,
+        color: Theme.of(context).primaryColor,
+        child: Icon(
+          Icons.delete,
+          size: 32.0,
+          color: Theme.of(context).accentColor,
+        ),
+      ),
+      child: Container(
+        margin: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+        child: Card(
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(10)),
+          child: Container(
+            child: ListTile(
+              leading: Container(
+                child: CircleAvatar(
+                  radius: 30,
+                  backgroundImage:
+                      NetworkImage(allCartProduct[index].foodImage),
+                ),
+              ),
+              title: Container(
+                padding: EdgeInsets.only(left: 4),
+                child: Row(
+                  children: <Widget>[
+                    Text(
+                      '${allCartProduct[index].foodQuantity}x',
+                      style:
+                          TextStyle(fontSize: 16, fontWeight: FontWeight.w300),
+                    ),
+                    SizedBox(
+                      width: 20,
+                    ),
+                    Container(
+                      height: 60,
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                        children: <Widget>[
+                          Text(
+                            allCartProduct[index].foodName,
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold),
+                          ),
+                          Text(
+                            allCartProduct[index].foodType,
+                            style: TextStyle(
+                                fontSize: 16, fontWeight: FontWeight.w300),
+                          ),
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              trailing: Text(
+                " \$${allCartProduct[index].foodPrice}",
+                style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Theme.of(context).accentColor),
+              ),
             ),
           ),
         ),
@@ -91,14 +159,18 @@ class _CartState extends State<Cart> {
   }
 
   @override
-  Widget build(BuildContext context) {
-    provider = Provider.of<MyProvider>(context);
-    
+  void initState() {
+    MyProvider provider = Provider.of<MyProvider>(context,listen: false);
     var check = provider.cartFoodList;
     check.forEach((element) {
       total += element.foodPrice;
     });
+    super.initState();
+  }
 
+  @override
+  Widget build(BuildContext context) {
+    provider = Provider.of<MyProvider>(context);
     return Scaffold(
       appBar: AppBar(
         elevation: 0.0,
@@ -152,10 +224,100 @@ class _CartState extends State<Cart> {
                   ],
                 ),
               ),
-            )
+            ),
           ],
         ),
       ),
     );
   }
 }
+
+// Dismissible(
+//   background: Container(
+//     color: Colors.red,
+//     height: 20,
+//   ),
+//   key: ValueKey(allCartProduct),
+//   onDismissed: (direction) {
+//     setState(() {
+//       allCartProduct.removeAt(index);
+//     });
+
+//     Scaffold.of(context).showSnackBar(
+//       SnackBar(
+//         content: Text("$allCartProduct dismissed"),
+//       ),
+//     );
+//   },
+//   child:
+
+/// Tring Down Wala Dismissible
+
+//  Dismissible(
+//           confirmDismiss: (direction) {
+//             return showDialog(
+//               context: context,
+//               builder: (context) {
+//                 return CupertinoAlertDialog(
+//                   title: Text('Delete'),
+//                   content: Text('Delete'),
+//                   actions: <Widget>[
+//                     FlatButton(
+//                       onPressed: () {
+//                         // Navigator.pop(context, false);
+//                         Navigator.of(
+//                           context,
+//                           // rootNavigator: true,
+//                         ).pop(false);
+//                       },
+//                       child: Text('No'),
+//                     ),
+//                     FlatButton(
+//                       onPressed: () {
+//                         // Navigator.pop(context, true);
+//                         Navigator.of(
+//                           context,
+//                           // rootNavigator: true,
+//                         ).pop(true);
+//                       },
+//                       child: Text('Yes'),
+//                     ),
+//                   ],
+//                 );
+//               },
+//             );
+//           },
+//           key: UniqueKey(),
+//           direction: DismissDirection.endToStart,
+//           onDismissed: (direction) {
+//             //TODO DELETE
+//             Scaffold.of(context).showSnackBar(
+//               SnackBar(
+//                 backgroundColor: Theme.of(context).accentColor,
+//                 content: Text(
+//                   'test',
+//                   textAlign: TextAlign.center,
+//                   style: TextStyle(
+//                     fontSize: 20.0,
+//                     color: Colors.white,
+//                   ),
+//                 ),
+//               ),
+//             );
+//           },
+//           background: Container(
+//             padding: const EdgeInsets.only(right: 20.0),
+//             // alignment: AlignmentDirectional.centerEnd,
+//             alignment: Alignment.centerRight,
+//             color: Theme.of(context).accentColor,
+//             child: Icon(
+//               Icons.delete,
+//               size: 32.0,
+//               color: Theme.of(context).primaryColor,
+//             ),
+//           ),
+//           child: Padding(
+//             padding: const EdgeInsets.symmetric(horizontal: 20.0),
+//             child: CartCard(),
+//           ),
+//         ),

@@ -203,7 +203,7 @@ class _HomePageState extends State<HomePage> {
         child: SafeArea(
           child: Container(
             color: Color(0xfff8f8f8),
-            child: Column(
+            child: ListView(
               children: <Widget>[
                 Container(
                   height: 80,

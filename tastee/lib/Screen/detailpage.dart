@@ -20,7 +20,7 @@ class DetailPage extends StatefulWidget {
 
 class _DetailPageState extends State<DetailPage> {
   int count = 1;
-  double totalPrice = 0;
+  double totalPrice;
   var uid;
   var provider;
   var _auth = FirebaseAuth.instance;
@@ -62,7 +62,7 @@ class _DetailPageState extends State<DetailPage> {
         mainAxisAlignment: MainAxisAlignment.spaceBetween,
         children: <Widget>[
           Text(
-            "\$${totalPrice == 0 ? widget.foodPrice.toString() : totalPrice}",
+            "\$${totalPrice == null ? widget.foodPrice.toString() : totalPrice}",
             style: TextStyle(
                 fontSize: 24,
                 fontWeight: FontWeight.bold,
