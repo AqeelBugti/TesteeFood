@@ -1,129 +1,128 @@
+import 'dart:math';
+
+import 'package:flappy_search_bar/flappy_search_bar.dart';
+import 'package:flappy_search_bar/scaled_tile.dart';
 import 'package:flutter/material.dart';
-class Test extends StatefulWidget {
+
+class Test extends StatelessWidget {
+  // This widget is the root of your application.
   @override
-  _TestState createState() =>  _TestState();
+  Widget build(BuildContext context) {
+    return Home();
+  }
 }
 
-class _TestState extends State<Test> {
-  double rating = 3.5;
+class Post {
+  final String title;
+  final String body;
+
+  Post(this.title, this.body);
+}
+
+class Home extends StatefulWidget {
+  @override
+  _HomeState createState() => _HomeState();
+}
+
+class _HomeState extends State<Home> {
+  final SearchBarController<Post> _searchBarController = SearchBarController();
+  bool isReplay = false;
+
+  Future<List<Post>> _getALlPosts(String text) async {
+    await Future.delayed(Duration(seconds: text.length == 4 ? 10 : 1));
+    if (isReplay) return [Post("Replaying !", "Replaying body")];
+    if (text.length == 5) throw Error();
+    if (text.length == 6) return [];
+    List<Post> posts = [];
+
+    var random = new Random();
+    for (int i = 0; i < 10; i++) {
+      posts
+          .add(Post("$text $i", "body random number : ${random.nextInt(100)}"));
+    }
+    return posts;
+  }
 
   @override
   Widget build(BuildContext context) {
-    return  Scaffold(
-      body:  ListView(
-        children: ListTile
-            .divideTiles(
-              context: context,
-              tiles:  List.generate(42, (index) {
-                return SlideMenu(
-                  child: ListTile(
-                    title:  Container(child:  Text("Drag me")),
-                  ),
-                  menuItems: <Widget>[
-                     Container(
-                      child:  IconButton(
-                        icon: Icon(Icons.delete),
-                        onPressed: null,
-                      ),
-                    ),
-                    //  Container(  /////////////////// Info IconButton 
-                    //   child:  IconButton(
-                    //     icon:  Icon(Icons.info),
-                    //     onPressed: null,
-                    //   ),
-                    // ),
-                  ],
-                );
-              }),
-            )
-            .toList(),
+    return Scaffold(
+      body: SafeArea(
+        child: SearchBar<Post>(
+          searchBarPadding: EdgeInsets.symmetric(horizontal: 10),
+          headerPadding: EdgeInsets.symmetric(horizontal: 10),
+          listPadding: EdgeInsets.symmetric(horizontal: 10),
+          onSearch: _getALlPosts,
+          searchBarController: _searchBarController,
+          placeHolder: Text("placeholder"),
+          cancellationWidget: Text("Cancel"),
+          emptyWidget: Text("empty"),
+          indexedScaledTileBuilder: (int index) =>
+              ScaledTile.count(1, index.isEven ? 2 : 1),
+          header: Row(
+            children: <Widget>[
+              RaisedButton(
+                child: Text("sort"),
+                onPressed: () {
+                  _searchBarController.sortList((Post a, Post b) {
+                    return a.body.compareTo(b.body);
+                  });
+                },
+              ),
+              RaisedButton(
+                child: Text("Desort"),
+                onPressed: () {
+                  _searchBarController.removeSort();
+                },
+              ),
+              RaisedButton(
+                child: Text("Replay"),
+                onPressed: () {
+                  isReplay = !isReplay;
+                  _searchBarController.replayLastSearch();
+                },
+              ),
+            ],
+          ),
+          onCancelled: () {
+            print("Cancelled triggered");
+          },
+          mainAxisSpacing: 10,
+          crossAxisSpacing: 10,
+          crossAxisCount: 2,
+          onItemFound: (Post post, int index) {
+            return Container(
+              color: Colors.lightBlue,
+              child: ListTile(
+                title: Text(post.title),
+                isThreeLine: true,
+                subtitle: Text(post.body),
+                onTap: () {
+                  Navigator.of(context)
+                      .push(MaterialPageRoute(builder: (context) => Detail()));
+                },
+              ),
+            );
+          },
+        ),
       ),
     );
   }
 }
 
-class SlideMenu extends StatefulWidget {
-  final Widget child;
-  final List<Widget> menuItems;
-
-  SlideMenu({this.child, this.menuItems});
-
-  @override
-  _SlideMenuState createState() =>  _SlideMenuState();
-}
-
-class _SlideMenuState extends State<SlideMenu> with SingleTickerProviderStateMixin {
-  AnimationController _controller;
-
-  @override
-  initState() {
-    super.initState();
-    _controller =  AnimationController(vsync: this, duration: const Duration(milliseconds: 200));
-  }
-
-  @override
-  dispose() {
-    _controller.dispose();
-    super.dispose();
-  }
-
+class Detail extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
-    final animation =  Tween(
-      begin: const Offset(0.0, 0.0),
-      end: const Offset(-0.2, 0.0)
-    ).animate( CurveTween(curve: Curves.decelerate).animate(_controller));
-
-    return  GestureDetector(
-      onHorizontalDragUpdate: (data) {
-        // we can access context.size here
-        setState(() {
-          _controller.value -= data.primaryDelta / context.size.width;
-        });
-      },
-      onHorizontalDragEnd: (data) {
-        if (data.primaryVelocity > 2500)
-          _controller.animateTo(.0); //close menu on fast swipe in the right direction
-        else if (_controller.value >= .5 || data.primaryVelocity < -2500) // fully open if dragged a lot to left or on fast swipe to left
-          _controller.animateTo(1.0);
-        else // close if none of above
-          _controller.animateTo(.0);
-      },
-      child:  Stack(
-        children: <Widget>[
-           SlideTransition(position: animation, child: widget.child),
-           Positioned.fill(
-            child:  LayoutBuilder(
-              builder: (context, constraint) {
-                return  AnimatedBuilder(
-                  animation: _controller,
-                  builder: (context, child) {
-                    return  Stack(
-                      children: <Widget>[
-                         Positioned(
-                          right: .0,
-                          top: .0,
-                          bottom: .0,
-                          width: constraint.maxWidth * animation.value.dx * -1,
-                          child:  Container(
-                            color: Colors.black26,
-                            child:  Row(
-                              children: widget.menuItems.map((child) {
-                                return  Expanded(
-                                  child: child,
-                                );
-                              }).toList(),
-                            ),
-                          ),
-                        ),
-                      ],
-                    );
-                  },
-                );
-              },
+    return Scaffold(
+      body: SafeArea(
+        child: Column(
+          children: <Widget>[
+            IconButton(
+              icon: Icon(Icons.arrow_back),
+              onPressed: () => Navigator.of(context).pop(),
             ),
-          )
-        ],
+            Text("Detail"),
+          ],
+        ),
       ),
     );
   }

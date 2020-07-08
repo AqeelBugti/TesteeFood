@@ -5,6 +5,7 @@ import 'package:tastee/MyProvider/Myprovider.dart';
 import 'package:tastee/Screen/homepage.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import './Screen/logIn.dart';
+
 void main() {
   runApp(MyApp());
 }
@@ -36,6 +37,5 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-
 
 

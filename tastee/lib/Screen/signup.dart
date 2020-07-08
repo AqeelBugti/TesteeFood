@@ -333,13 +333,17 @@ class _SignUpState extends State<SignUp> {
           height: 10,
         ),
         isLoading == false
-        ?MyRaisedutton(
-          buttonText:'SignUp' ,
-          myColor: Theme.of(context).primaryColor,
-          textColor: Colors.white,
-          whenPress: (){
-            vaildationText();
-          },
+        ?Container(
+          height: 60,
+          width: double.infinity,
+          child: MyRaisedutton(
+            buttonText:'SignUp' ,
+            myColor: Theme.of(context).primaryColor,
+            textColor: Colors.white,
+            whenPress: (){
+              vaildationText();
+            },
+          ),
         )
             : CircularProgressIndicator(
                 backgroundColor: Colors.yellow,

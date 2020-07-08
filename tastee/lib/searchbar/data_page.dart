@@ -2,8 +2,7 @@
 
 List<ListWords>  listWords = [
   ListWords('Red', 'Container'),
-  ListWords('Red', 'Container'),
-  ListWords('Red', 'Container'),
+
 ];
 
 class ListWords {

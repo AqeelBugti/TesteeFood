@@ -127,7 +127,7 @@ class _HomePageState extends State<HomePage> {
                 Icons.search,
               ),
               onPressed: () {
-                showSearch(context: context, delegate: DataSearch(listWords));
+              showSearch(context: context, delegate: DataSearch(listWords));
               },
             ),
             fillColor: Colors.white,
@@ -386,6 +386,25 @@ class _HomePageState extends State<HomePage> {
                                   child: Row(
                                     children: <Widget>[
                                       CircleContainer(
+                                        foodName: food.foodName,
+                                        foodType: food.foodType,
+                                        foodPrice: food.price,
+                                        foodRating: food.rating,
+                                        foodImage: food.image,
+                                        whenPress: () {
+                                          Navigator.of(context).pushReplacement(
+                                            MaterialPageRoute(
+                                              builder: (context) => DetailPage(
+                                                foodImage: food.image,
+                                                foodName: food.foodName,
+                                                foodPrice: food.price,
+                                                foodType: food.foodType,
+                                              ),
+                                            ),
+                                          );
+                                        },
+                                      ),
+                                       CircleContainer(
                                         foodName: food.foodName,
                                         foodType: food.foodType,
                                         foodPrice: food.price,

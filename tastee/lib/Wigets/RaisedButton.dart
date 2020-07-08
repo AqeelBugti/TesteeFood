@@ -13,7 +13,7 @@ class MyRaisedutton extends StatelessWidget {
       child: Text(
         buttonText,
         style: TextStyle(
-            fontSize: 25, fontWeight: FontWeight.bold, color: textColor),
+            fontSize: 30, fontWeight: FontWeight.bold, color: textColor),
       ),
       color: myColor,
       onPressed: whenPress,

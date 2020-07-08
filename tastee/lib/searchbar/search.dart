@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-// import './detile.dart';
 import './data_page.dart';
-
+import '../searchbar/detile.dart';
 class DataSearch extends SearchDelegate<String> {
   final List<ListWords> listWords;
 
@@ -36,7 +35,6 @@ class DataSearch extends SearchDelegate<String> {
   Widget buildResults(BuildContext context) {
     // show some result based on the selection
     final suggestionList = listWords;
-
     return ListView.builder(
       itemBuilder: (context, index) => ListTile(
         title: Text(listWords[index].titlelist),
@@ -60,26 +58,35 @@ class DataSearch extends SearchDelegate<String> {
     return ListView.builder(
       itemBuilder: (context, index) => ListTile(
         onTap: () {
-          // Navigator.push(
-          //   context,
-          //   MaterialPageRoute(
-          //     builder: (context) =>
-          //         Detail(listWordsDetail: suggestionList[index]),
-          //   ),
-          // );
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) =>
+                  Detail(listWordsDetail: suggestionList[index]),
+            ),
+          );
         },
-        // trailing: Icon(Icons.remove_red_eye),
-        title: RichText(
-          text: TextSpan(
-            text: suggestionList[index].titlelist.substring(0, query.length),
-            style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
-            children: [
-              TextSpan(
-                  text: suggestionList[index].titlelist.substring(query.length),
-                  style: TextStyle(color: Colors.grey)),
-            ],
-          ),
+        title: Container(
+          child: Text("data"),
         ),
+        // title: Container(
+        //   height: 200,
+        //   width: 200,
+        //   child: Text('Red'),
+        //   color: Colors.blue,
+        // ),
+        // trailing: Icon(Icons.remove_red_eye),
+        // title: RichText(
+        //   text: TextSpan(
+        //     text: suggestionList[index].titlelist.substring(0, query.length),
+        //     style: TextStyle(color: Colors.red, fontWeight: FontWeight.bold),
+        //     children: [
+        //       TextSpan(
+        //           text: suggestionList[index].titlelist.substring(query.length),
+        //           style: TextStyle(color: Colors.grey)),
+        //     ],
+        //   ),
+        // ),
       ),
       itemCount: suggestionList.length,
     );
