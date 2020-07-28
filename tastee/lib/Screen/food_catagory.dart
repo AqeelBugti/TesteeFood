@@ -59,7 +59,6 @@ class _FoodCatagoryState extends State<FoodCatagory> {
             foodType: event["foodType"],
             price: event["foodPrice"],
             rating: event["foodRating"],
-            reathings: event["reatings"],
             image: event["foodImage"]);
       });
     });
@@ -78,7 +77,6 @@ class _FoodCatagoryState extends State<FoodCatagory> {
             foodType: event["foodType"],
             price: event["foodPrice"],
             rating: event["foodRating"],
-            reathings: event["reatings"],
             image: event["foodImage"]);
       });
     });
@@ -97,7 +95,6 @@ class _FoodCatagoryState extends State<FoodCatagory> {
             foodType: event["foodType"],
             price: event["foodPrice"],
             rating: event["foodRating"],
-            reathings: event["reatings"],
             image: event["foodImage"]);
       });
     });

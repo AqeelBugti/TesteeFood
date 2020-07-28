@@ -1,9 +1,10 @@
 import 'package:flutter/widgets.dart';
 import '../Model/Cart_model.dart';
-
+import '../Model/food_model.dart';
 class MyProvider with ChangeNotifier {
   List<CartProduct> _cartProductList = [];
   CartProduct cartProduct;
+  List<Food> foodList = [];
   void addCartProduct({
     String foodName,
     String foodType,
@@ -36,5 +37,12 @@ class MyProvider with ChangeNotifier {
   void deleteCartFood(int index) {
     _cartProductList.removeAt(index);
     notifyListeners();
+  }
+  List<Food> get getfoodList {
+    return foodList;
+  }
+
+  List<Food> get getMyFoodList {
+    return foodList;
   }
 }

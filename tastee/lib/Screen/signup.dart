@@ -26,6 +26,7 @@ class _SignUpState extends State<SignUp> {
   final TextEditingController email = TextEditingController();
 
   final TextEditingController password = TextEditingController();
+ 
   final TextEditingController address = TextEditingController();
 
   final TextEditingController contactNumber = TextEditingController();
@@ -403,4 +404,3 @@ class _SignUpState extends State<SignUp> {
     );
   }
 }
-

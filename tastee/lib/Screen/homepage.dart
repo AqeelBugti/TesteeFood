@@ -9,8 +9,11 @@ import './food_catagory.dart';
 import '../Wigets/circle_container.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../Model/food_model.dart';
-import '../searchbar/data_page.dart';
-import '../searchbar/search.dart';
+// import '../searchbar/data_page.dart';
+// import '../searchbar/search.dart';
+import '../MyProvider/Myprovider.dart';
+import 'package:provider/provider.dart';
+import '../Search/search.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -21,6 +24,7 @@ class _HomePageState extends State<HomePage> {
   Food food;
   var uid;
   var userImage;
+  Food searchFood;
   void getUserImage() async {
     final FirebaseUser user = await FirebaseAuth.instance.currentUser();
     uid = user.uid;
@@ -116,22 +120,38 @@ class _HomePageState extends State<HomePage> {
   Widget _search() {
     return Padding(
       padding: EdgeInsets.only(left: 10, top: 160, right: 10),
-      child: TextFormField(
-        decoration: InputDecoration(
-            border: OutlineInputBorder(
-                borderRadius: BorderRadius.circular(10),
-                borderSide: BorderSide.none),
-            hintText: 'Search',
-            suffixIcon: IconButton(
-              icon: Icon(
-                Icons.search,
-              ),
-              onPressed: () {
-              showSearch(context: context, delegate: DataSearch(listWords));
-              },
+      child: GestureDetector(
+        onTap: () {
+          showSearch(context: context, delegate: Search());
+        },
+        child: Container(
+          padding: EdgeInsets.only(left: 20),
+          height: 60,
+          decoration: BoxDecoration(
+              color: Colors.white, borderRadius: BorderRadius.circular(10)),
+          child: Container(
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: <Widget>[
+                Text(
+                  "Search",
+                  style: TextStyle(
+                      fontSize: 20, color: Theme.of(context).primaryColor),
+                ),
+                IconButton(
+                  icon: Icon(
+                    Icons.search,
+                    size: 30,
+                    color: Theme.of(context).primaryColor,
+                  ),
+                  onPressed: () {
+                    showSearch(context: context, delegate: Search());
+                  },
+                ),
+              ],
             ),
-            fillColor: Colors.white,
-            filled: true),
+          ),
+        ),
       ),
     );
   }
@@ -187,6 +207,23 @@ class _HomePageState extends State<HomePage> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    MyProvider provider = Provider.of<MyProvider>(context, listen: false);
+    Firestore.instance.collection("food").snapshots().forEach((element) {
+      element.documents.forEach((element) {
+        searchFood = Food(
+            foodName: element['foodName'],
+            foodType: element['foodType'],
+            rating: element['rating'],
+            price: element['foodPrice'],
+            image: element['image']);
+        provider.getfoodList.add(searchFood);
+      });
+    });
+  }
+
+  @override
   Widget build(BuildContext context) {
     getUserImage();
     return Scaffold(
@@ -195,9 +232,12 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: Theme.of(context).primaryColor,
         elevation: 0.0,
         actions: <Widget>[
-          IconButton(
-            icon: Icon(Icons.notifications, size: 30, color: Colors.white),
-            onPressed: () {},
+          Container(
+            width: 70,
+            child: IconButton(
+              icon: Icon(Icons.notifications, size: 25, color: Colors.white),
+              onPressed: () {},
+            ),
           ),
         ],
       ),
@@ -305,10 +345,9 @@ class _HomePageState extends State<HomePage> {
             }
             food = Food(
               foodName: foodSnapShot.data["foodName"],
-              foodType: foodSnapShot.data["foodtitle"],
+              foodType: foodSnapShot.data["foodType"],
               price: foodSnapShot.data["foodPrice"],
               rating: foodSnapShot.data["rating"],
-              reathings: foodSnapShot.data["Reatings"],
               image: foodSnapShot.data["image"],
             );
             return StreamBuilder(
@@ -404,7 +443,7 @@ class _HomePageState extends State<HomePage> {
                                           );
                                         },
                                       ),
-                                       CircleContainer(
+                                      CircleContainer(
                                         foodName: food.foodName,
                                         foodType: food.foodType,
                                         foodPrice: food.price,
